@@ -33,3 +33,27 @@ const parseFile = file => {}
  *
  *******************/
 const compareReads = (read1, read2) => {}
+
+const beginProcessing = () => {
+  const file1Container = document.getElementById("file1")
+  const file2Container = document.getElementById("file2")
+  const file1Reader = new FileReader()
+  const file2Reader = new FileReader()
+  file1Reader.readAsText(file1Container.files[0])
+  file2Reader.readAsText(file2Container.files[0])
+  awaitProcessing(file1Reader, file2Reader)
+}
+
+const awaitProcessing = (f1, f2) => {
+  if (f1.readyState === 2 && f2.readyState === 2) {
+    const pValueTable = compareReads(parseFile(f1.result), parseFile(f2.result))
+  } else {
+    setTimeout(awaitProcessing, 100, f1, f2)
+  }
+}
+
+// Init function
+;(function() {
+  const goButton = document.getElementById("go")
+  goButton.addEventListener("click", beginProcessing)
+})()
