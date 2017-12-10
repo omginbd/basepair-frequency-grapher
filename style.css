@@ -1,0 +1,25 @@
+body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  justify-content: space-between;
+}
+
+.fileWrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.sigWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableWrapper {
+  display: flex;
+  flex-direction: row;
+}

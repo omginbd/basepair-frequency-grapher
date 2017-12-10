@@ -5,17 +5,29 @@
 <head>
   <meta charset="utf-8" />
   <title>Basepair Frequency Grapher</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 <body>
-  <input type="file" id="file1" />
-  <input type="file" id="file2" />
+  <h1>Graph-O-Matic 5000</h1>
+  <div class="fileWrapper">
+    <label style="margin-right: 1em">File 1: </label>
+    <input type="file" id="file1" />
+    <label style="margin-right: 1em">File 2: </label>
+    <input type="file" id="file2" />
+  </div>
+  <div class="sigWrapper">
+    <label>Significance Level</label>
+    <input type="number" id="sigLevel" size="2" min="0" max="1" step="0.1">
+  </div>
   <button id="go">Go!</button>
 
-  <div id="tableonemer" />
-  <div id="tabletwomer" />
-  <div id="tablethreemer" />
-  <div id="tablefourmer" />
+  <div class="tableWrapper">
+    <div id="tableonemers">one</div>
+    <div id="tabletwomers">two</div>
+    <div id="tablethreemers">three</div>
+    <div id="tablefourmers">four</div>
+  </div>
   <script src="./app.js"></script>
 </body>
 
