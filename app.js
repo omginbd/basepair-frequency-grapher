@@ -364,24 +364,20 @@ const compareReads = (parsed1, parsed2) => {
 
     nucleotides = new Array()
 
-    // Object.keys(fourmer1).forEach(function(nucleotide) {
-    //   var p1 = fourmer1[nucleotide].proportion
-    //   var p2 = fourmer2[nucleotide].proportion
-    //   var y1 = fourmer1[nucleotide].count
-    //   var y2 = fourmer2[nucleotide].count
-    //   var po = (y1 + y2) / (n1 + n2)
-    //   var z = (p1 - p2 - 0) / Math.sqrt(po * (1 - po) * (1 / n1 + 1 / n2))
-    //   var pValue = GetZPercent(z)
-    //   nucleotides.push(pValue)
-    // })
-
-    for (i = 0; i < 10; i++){
-      nucleotides.push(i)
-    }
+    Object.keys(fourmer1).forEach(function(nucleotide) {
+      var p1 = fourmer1[nucleotide].proportion
+      var p2 = fourmer2[nucleotide].proportion
+      var y1 = fourmer1[nucleotide].count
+      var y2 = fourmer2[nucleotide].count
+      var po = (y1 + y2) / (n1 + n2)
+      var z = (p1 - p2 - 0) / Math.sqrt(po * (1 - po) * (1 / n1 + 1 / n2))
+      var pValue = GetZPercent(z)
+      nucleotides.push(pValue)
+    })
 
     var newFourmer = new Object()
     var position = 0
-
+    
     newFourmer = {
       AAAA: nucleotides[position++],
       AAAC: nucleotides[position++],
