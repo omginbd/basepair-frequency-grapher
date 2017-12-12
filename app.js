@@ -241,9 +241,9 @@ const compute = (Z, M, SD) => {
 const normalDistributionZTest = (kmer1, kmer2, n1, n2, divisor) => {
   const { count: y1, proportion: p1 } = kmer1
   const { count: y2, proportion: p2 } = kmer2
-  const sd = Math.sqrt(divisor * (p1* (1 - p1) / n1 + p2 * (1 - p2) / n2))
+  const sd = Math.sqrt(divisor * (p1 * (1 - p1) / n1 + p2 * (1 - p2) / n2))
   const m = p1 - p2
-  const znorm = p1 - p2 / sd
+  const znorm = m / sd
 
   const v = compute(znorm, m, sd)
 
@@ -278,6 +278,7 @@ const normalDistributionZTest = (kmer1, kmer2, n1, n2, divisor) => {
  *
  *******************/
 const compareReads = (file1, file2, test) => {
+  const divisor = document.querySelector("#divisor").value
   const toReturn = { onemers: [], twomers: [], threemers: [], fourmers: [] }
   for (let k in file1) {
     const collection = [file1[k], file2[k]]
@@ -304,7 +305,8 @@ const compareReads = (file1, file2, test) => {
                 collection[0][position][kmer],
                 collection[1][position][kmer],
                 n1,
-                n2
+                n2,
+                divisor
               )
       }
       toReturn[k].push(pValueObj)

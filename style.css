@@ -40,6 +40,10 @@ body {
   width: 40px;
 }
 
+.sigWrapper input#divisor {
+  width: 80px;
+}
+
 .sigWrapperContent {
   padding: 10px 0;
 }
