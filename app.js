@@ -692,13 +692,17 @@ const beginProcessing = () => {
 
 const awaitProcessing = (f1, f2) => {
   if (f1.readyState === 2 && f2.readyState === 2) {
-    updateTables(compareReads(parseFile(f1.result), parseFile(f2.result)))
+    const sigLevel = document.querySelector("#sigLevel").value
+    updateTables(
+      compareReads(parseFile(f1.result), parseFile(f2.result)),
+      sigLevel
+    )
   } else {
     setTimeout(awaitProcessing, 100, f1, f2)
   }
 }
 
-const updateTables = pValueTable => {
+const updateTables = (pValueTable, sigLevel) => {
   for (let key in pValueTable) {
     let tableString = `<div class="label">${key}</div>`
     tableString += '<table style="margin: 16px; display: block; width: 99vw">'
@@ -712,7 +716,10 @@ const updateTables = pValueTable => {
     for (let j = 0; j < pValueTable[key].length; j++) {
       tableString += `<tr><td>${j}</td>`
       for (let nuc in pValueTable[key][j]) {
-        tableString += `<td>${pValueTable[key][j][nuc].toFixed(5)}</td>`
+        const val = pValueTable[key][j][nuc]
+        tableString += `<td class=${
+          val < sigLevel ? "" : "insignificant"
+        }>${val.toFixed(5)}</td>`
       }
       tableString += "</tr>"
     }
