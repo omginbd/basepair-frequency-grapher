@@ -208,8 +208,53 @@ const twoProportionZTest = (kmer1, kmer2, n1, n2) => {
   return GetZPercent(z)
 }
 
-// TODO
-const normalDistributionZTest = (kmer1, kmer2, n1, n2) => {}
+// Source: http://www.math.ucla.edu/~tom/distributions/normal.html
+
+const normalcdf = (X) => {   //HASTINGS.  MAX ERROR = .000001
+	var T=1/(1+.2316419*Math.abs(X))
+	var D=.3989423*Math.exp(-X*X/2)
+	var Prob=D*T*(.3193815+T*(-.3565638+T*(1.781478+T*(-1.821256+T*1.330274))))
+	if (X>0) {
+		Prob=1-Prob
+	}
+	return Prob
+}
+
+const compute = (Z, M, SD) => {
+  with (Math) {
+    if (SD<0) {
+      alert("The standard deviation must be nonnegative.")
+    } else if (SD==0) {
+        if (Z<M){
+            Prob=0
+        } else {
+          Prob=1
+      }
+    } else {
+      Prob=normalcdf((Z-M)/SD)
+      Prob=round(100000*Prob)/100000
+    }
+  }
+  return Prob
+}
+
+const normalDistributionZTest = (kmer1, kmer2, n1, n2, divisor) => {
+  const { count: y1, proportion: p1 } = kmer1
+  const { count: y2, proportion: p2 } = kmer2
+  const sd = Math.sqrt(divisor * (p1* (1 - p1) / n1 + p2 * (1 - p2) / n2))
+  const m = p1 - p2
+  const znorm = p1 - p2 / sd
+
+  const v = compute(znorm, m, sd)
+
+  if (znorm < 0) {
+    return v * 2
+  } else if (znorm > 0) {
+    return (1 - v) * 2
+  } else {
+    return 0
+  }
+}
 
 /*******************
  *
