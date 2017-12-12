@@ -190,7 +190,6 @@ const compareReads = (parsed1, parsed2) => {
       var z = (p1 - p2 - 0) / Math.sqrt(po * (1 - po) * (1 / n1 + 1 / n2))
       var pValue = GetZPercent(z)
       nucleotides.push(pValue)
-      // console.log("ZSCORE: ", z)
     })
 
     var newOnemer = new Object()
@@ -675,6 +674,8 @@ const GetZPercent = z => {
 
   if (z < 0) {
     return sum * 2
+  } else if (z == 0){
+    return 0
   } else {
     return (1 - sum) * 2
   }
