@@ -1,3 +1,5 @@
+const tables = { onemers: "", twomers: "", threemers: "", fourmers: "" }
+
 /*******************
  *
  * file: stringified version of uploaded file
@@ -236,7 +238,7 @@ const compareReads = (parsed1, parsed2) => {
       CA: nucleotides[4],
       CC: nucleotides[5],
       CG: nucleotides[6],
-      CT: nucleotides[7], 
+      CT: nucleotides[7],
       GA: nucleotides[8],
       GC: nucleotides[9],
       GG: nucleotides[10],
@@ -247,7 +249,6 @@ const compareReads = (parsed1, parsed2) => {
       TT: nucleotides[15]
     }
     pValueObjects.twomers.push(newTwomer)
-
   }
 
   //parse threemers
@@ -377,7 +378,7 @@ const compareReads = (parsed1, parsed2) => {
 
     var newFourmer = new Object()
     var position = 0
-    
+
     newFourmer = {
       AAAA: nucleotides[position++],
       AAAC: nucleotides[position++],
@@ -442,7 +443,7 @@ const compareReads = (parsed1, parsed2) => {
       ATTA: nucleotides[position++],
       ATTC: nucleotides[position++],
       ATTG: nucleotides[position++],
-      ATTT: nucleotides[position++],	
+      ATTT: nucleotides[position++],
       CAAA: nucleotides[position++],
       CAAC: nucleotides[position++],
       CAAG: nucleotides[position++],
@@ -506,7 +507,7 @@ const compareReads = (parsed1, parsed2) => {
       CTTA: nucleotides[position++],
       CTTC: nucleotides[position++],
       CTTG: nucleotides[position++],
-      CTTT: nucleotides[position++],	
+      CTTT: nucleotides[position++],
       GAAA: nucleotides[position++],
       GAAC: nucleotides[position++],
       GAAG: nucleotides[position++],
@@ -570,7 +571,7 @@ const compareReads = (parsed1, parsed2) => {
       GTTA: nucleotides[position++],
       GTTC: nucleotides[position++],
       GTTG: nucleotides[position++],
-      GTTT: nucleotides[position++],	
+      GTTT: nucleotides[position++],
       TAAA: nucleotides[position++],
       TAAC: nucleotides[position++],
       TAAG: nucleotides[position++],
@@ -698,25 +699,45 @@ const awaitProcessing = (f1, f2) => {
 }
 
 const updateTables = pValueTable => {
-  console.log(pValueTable)
   for (let key in pValueTable) {
-    let tableString = `<div>${key}</div>`
-    tableString += '<table style="margin: 16px">'
+    let tableString = `<div class="label">${key}</div>`
+    tableString += '<table style="margin: 16px; display: block; width: 99vw">'
+    tableString += "<tr><th />"
+    for (let j = 0; j < Object.keys(pValueTable[key][0]).length; j++) {
+      tableString += `<th class="theader">${
+        Object.keys(pValueTable[key][0])[j]
+      }</th>`
+    }
+    tableString += "</tr>"
     for (let j = 0; j < pValueTable[key].length; j++) {
-      tableString += "<tr>"
+      tableString += `<tr><td>${j}</td>`
       for (let nuc in pValueTable[key][j]) {
-        tableString += `<td>${pValueTable[key][j][nuc]}</td>`
+        tableString += `<td>${pValueTable[key][j][nuc].toFixed(5)}</td>`
       }
       tableString += "</tr>"
     }
     tableString += "</table>"
-    const renderNode = document.getElementById(`table${key}`)
-    renderNode.innerHTML = tableString
+    tables[key] = tableString
   }
+  document.querySelector("#buttonWrapper").style.display = "flex"
+  document.querySelector("#go").style.display = "none"
+}
+
+const changeTable = key => {
+  const renderNode = document.querySelector("#table")
+  renderNode.innerHTML = tables[key]
 }
 
 // Init function
 ;(function() {
   const goButton = document.getElementById("go")
+  const k1Button = document.getElementById("onemers-button")
+  const k2Button = document.getElementById("twomers-button")
+  const k3Button = document.getElementById("threemers-button")
+  const k4Button = document.getElementById("fourmers-button")
   goButton.addEventListener("click", beginProcessing)
+  k1Button.addEventListener("click", () => changeTable("onemers"))
+  k2Button.addEventListener("click", () => changeTable("twomers"))
+  k3Button.addEventListener("click", () => changeTable("threemers"))
+  k4Button.addEventListener("click", () => changeTable("fourmers"))
 })()
